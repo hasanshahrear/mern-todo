@@ -1,0 +1,16 @@
+{
+	"name": "todo-list-app",
+	"version": "1.0.0",
+	"author": {
+		"name": "Hasan Shahrear"
+	},
+	"scripts": {
+		"start": "nodemon app.js"
+	},
+	"dependencies": {
+		"dotenv": "^16.0.3",
+		"express": "^4.18.2",
+		"mongoose": "^6.7.2",
+		"nodemon": "^2.0.20"
+	}
+}
