@@ -31,13 +31,14 @@ async function signup(req, res){
 async function login(req, res){
     try {
         const user = await User.findOne({email : req.body.email})
+        
         if(user && user._id){
             isValidPassword = await bcrypt.compare(req.body.password, user.password)
             if(isValidPassword){
                 const userobject = {
                     email: user.email,
+                    id: user._id,
                 }
-
                 // generate token
                 const token = jwt.sign(userobject, process.env.JWT_SECRET, {
                     expiresIn: process.env.JWT_EXPIRY

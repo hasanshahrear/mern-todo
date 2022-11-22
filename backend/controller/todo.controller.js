@@ -7,7 +7,7 @@ const Todo = require("../models/todo.model")
 // get all todos
 async function getAllTotods(req, res){
     try{
-        const todos = await Todo.find()
+        const todos = await Todo.find({user: req.user.id})
         res.status(200).json({
             status: true,
             data: todos
@@ -23,11 +23,10 @@ async function getAllTotods(req, res){
 // add todo
 async function addTodo(req, res){
     try {
-        
         const todo = new Todo({
             user: req.user.id,
             ...req.body,
-        });
+        });       
         await todo.save()
         res.status(200).json({
             message: "Todo added successfully"
@@ -57,7 +56,7 @@ async function deleteTodo(req, res){
 // update todo
 async function updateTodo(req, res){
     try{
-        await Todo.findOneAndUpdate(req.body._id, {...req.body})
+        await Todo.findOneAndUpdate(req.body._id, {user: req.user.id, ...req.body})
         res.status(200).json({
             message: "Todo update successfully"
         })

@@ -9,6 +9,9 @@ const checkLogin = async (req, res, next)=>{
         // if req.user is equal to decoded
         req.user = decoded
         next()
+
+        // console.log(decoded)
+        // console.log(req.user)
     } catch (error) {
         console.log(error.message)
     }
