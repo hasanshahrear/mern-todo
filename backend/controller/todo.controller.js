@@ -9,13 +9,12 @@ async function getAllTotods(req, res){
     try{
         const todos = await Todo.find()
         res.status(200).json({
-            message: "Todo added successfully",
             status: true,
             data: todos
         })
     }catch(error){
         res.status(500).json({
-            message: "Can't find data",
+            message: error.message,
             status: false,
         })
     }   
@@ -23,11 +22,12 @@ async function getAllTotods(req, res){
 
 // add todo
 async function addTodo(req, res){
-    const todo = new Todo({
-        ...req.body
-    });
-
     try {
+        
+        const todo = new Todo({
+            user: req.user.id,
+            ...req.body,
+        });
         await todo.save()
         res.status(200).json({
             message: "Todo added successfully"

@@ -4,6 +4,9 @@ const dotenv = require('dotenv')
 const mongoose = require("mongoose")
 
 // internal imports
+const useSignupRouter = require("./router/user/useSignupRouter")
+const useLoginRouter = require("./router/user/useLoginRouter")
+
 const useTodoRouter = require("./router/useTodoRouter")
 const useAddTodoRouter = require("./router/useAddTodoRouter")
 const useDeleteTodoRouter = require("./router/useDeleteTodoRouter")
@@ -14,7 +17,9 @@ const app = express()
 dotenv.config()
 
 // database connection
-mongoose.connect(process.env.MONGOOSE_CONNECTION_STRING)
+mongoose.connect(process.env.MONGOOSE_CONNECTION_STRING, {
+    autoIndex: true,
+})
 .then(()=> console.log("Database connection successfully"))
 .catch(err => console.log(err))
 
@@ -25,7 +30,12 @@ app.use(express.urlencoded({extended: true}))
 
 
 // routing setup
-app.use("/", useTodoRouter)
+// login route
+app.use("/", useLoginRouter )
+app.use("/signup", useSignupRouter)
+
+// todo route
+app.use("/todos", useTodoRouter)
 app.use("/todo-add", useAddTodoRouter)
 app.use("/todo-delete", useDeleteTodoRouter)
 app.use("/todo-update", useUpdateTodoRouter)
